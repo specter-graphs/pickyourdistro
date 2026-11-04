@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Make a Bootable USB Drive | Pick Your Distro</title>
+<meta name="description" content="Use Rufus, Ventoy or dd to make a bootable USB, without wiping the wrong disk.">
+<meta property="og:title" content="How to Make a Bootable USB Drive">
+<meta property="og:description" content="Use Rufus, Ventoy or dd to make a bootable USB, without wiping the wrong disk.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="../assets/images/bootable-usb.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%232dd4bf' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Pick Your Distro</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#guides">Guides</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<article>
+<h1>How to Make a Bootable USB Drive</h1>
+<p class="meta">November 4, 2026</p>
+<p>To install or try a Linux distro, you need a bootable USB drive. Here are the three most common ways to make one, and the mistake to avoid: writing to the wrong disk.</p>
+
+<div style="text-align: center;"><img src="../assets/images/bootable-usb.png" alt="Illustration of a USB drive with an arrow pointing to a laptop" width="640" /></div>
+
+<h2>Before you start</h2>
+<ul>
+  <li>Use a USB drive of 8 GB or more.</li>
+  <li><b>Back up anything on the drive.</b> Every method below erases it.</li>
+  <li>Download the image from the official site and <a href="verify-sha256.html">verify its SHA-256 checksum</a> first.</li>
+</ul>
+
+<h2>Option 1: Rufus (Windows)</h2>
+<p><a href="https://rufus.ie/">Rufus</a> is a small Windows tool and the easiest option for most people.</p>
+<ol>
+  <li>Plug in the USB drive and open Rufus.</li>
+  <li>Under <b>Device</b>, check that the drive shown is your USB stick.</li>
+  <li>Click <b>SELECT</b> and pick your ISO file.</li>
+  <li>Leave the defaults unless the distro's site says otherwise, then click <b>START</b>.</li>
+  <li>If Rufus asks about ISO or DD mode, ISO mode is usually fine.</li>
+</ol>
+
+<h2>Option 2: Ventoy (Windows and Linux)</h2>
+<p><a href="https://www.ventoy.net/">Ventoy</a> is handy if you want several distros on one drive.</p>
+<ol>
+  <li>Install Ventoy onto the USB drive once.</li>
+  <li>Copy any number of ISO files onto the drive like normal files.</li>
+  <li>Boot from the drive and pick which ISO to start from the menu.</li>
+</ol>
+<p>Installing Ventoy erases the drive, but after that, adding or removing ISOs does not.</p>
+
+<h2>Option 3: dd (Linux and macOS)</h2>
+<p><code>dd</code> is built in and needs no extra software, but it has no safety net. Find the correct device first:</p>
+<pre>lsblk</pre>
+<p>Look for the device whose size matches your USB stick, for example <code>/dev/sdb</code>. Use the whole device, not a partition such as <code>sdb1</code>. Then run:</p>
+<pre>sudo dd if=distro.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+<p>Replace <code>sdX</code> with your device name. Triple-check it. If you point <code>of=</code> at your main disk, <code>dd</code> will erase it without asking.</p>
+
+<h2>Safety checklist</h2>
+<ul>
+  <li>Unplug other USB drives and external disks before you start.</li>
+  <li>Confirm the drive by size and name every time.</li>
+  <li>Wait for the tool to finish and eject the drive safely before removing it.</li>
+  <li>If the PC does not boot from the USB, open the boot menu (often F12, F10, or Esc) and pick the drive. Secure Boot settings can also matter, so check the distro's documentation.</li>
+</ul>
+
+<p><i>Balena Etcher is another simple option for Windows, macOS, and Linux if you prefer a point-and-click tool with a built-in verification step.</i></p>
+
+</article>
+<nav class="post-nav">
+<a href="verify-sha256.html">&larr; Verify a Download with SHA-256</a>
+
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Pick Your Distro does not host operating system images. Always download from the project's official website and verify the checksum.</p>
+    <p>Distro names belong to their respective projects.</p>
+  </div>
+</footer>
+</body>
+</html>

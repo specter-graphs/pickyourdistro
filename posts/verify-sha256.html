@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Verify a Download with SHA-256 | Pick Your Distro</title>
+<meta name="description" content="Check the SHA-256 hash of an ISO on Windows, Linux and macOS before you flash it.">
+<meta property="og:title" content="How to Verify a Download with SHA-256">
+<meta property="og:description" content="Check the SHA-256 hash of an ISO on Windows, Linux and macOS before you flash it.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="../assets/images/verify-sha256.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%232dd4bf' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Pick Your Distro</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#guides">Guides</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<article>
+<h1>How to Verify a Download with SHA-256</h1>
+<p class="meta">November 4, 2026</p>
+<p>Downloading an operating system image is only half the job. Before you write it to a USB drive, you should confirm that the file is exactly what the project published, and that nothing got corrupted or swapped on the way. A SHA-256 checksum lets you do that in under a minute.</p>
+
+<div style="text-align: center;"><img src="../assets/images/verify-sha256.png" alt="Illustration of a file with a SHA-256 hash and a green check mark" width="640" /></div>
+
+<h2>What a checksum does</h2>
+<p>A checksum is a short fingerprint calculated from a file's contents. If even one byte changes, the fingerprint changes completely. The project publishes the correct fingerprint, you calculate your own, and the two must match.</p>
+
+<h2>Step 1: Get the official hash</h2>
+<p>Copy the SHA-256 value from the project's own website, usually on the download page or in a file named <code>SHA256SUMS</code>. Use the project's HTTPS site, not the page or mirror you downloaded the image from. If both come from the same untrusted place, a matching hash proves nothing.</p>
+
+<h2>Step 2: Calculate the hash of your file</h2>
+
+<h3>Windows (PowerShell)</h3>
+<pre>Get-FileHash .\distro.iso -Algorithm SHA256</pre>
+
+<h3>Windows (Command Prompt)</h3>
+<pre>certutil -hashfile distro.iso SHA256</pre>
+
+<h3>Linux</h3>
+<pre>sha256sum distro.iso</pre>
+
+<h3>macOS</h3>
+<pre>shasum -a 256 distro.iso</pre>
+
+<h2>Step 3: Compare</h2>
+<p>Every character must match. Letter case does not matter, but any other difference does. If the two values are different:</p>
+<ul>
+  <li>Delete the file and download it again.</li>
+  <li>Try a different official mirror.</li>
+  <li>If it still fails, do not use the image.</li>
+</ul>
+
+<h2>Going one step further: signatures</h2>
+<p>A checksum tells you the file was not damaged. A signature tells you who published it. Many projects, such as Debian and Ubuntu, sign their checksum files with GPG. If you want the extra assurance, follow the project's instructions to verify the signature on the checksum file as well.</p>
+
+<h2>Quick checklist</h2>
+<ul>
+  <li>Download only from the official site or a mirror it links to.</li>
+  <li>Get the hash from the official site over HTTPS.</li>
+  <li>Calculate the hash yourself and compare every character.</li>
+  <li>Mismatch means start over. Never "just try it."</li>
+</ul>
+
+<p><i>If a site offers an image with no checksum and no way to check who built it, treat it as untrusted.</i></p>
+
+</article>
+<nav class="post-nav">
+<a href="lightweight-distro.html">&larr; Pick a Lightweight Linux Distro</a>
+<a href="bootable-usb.html">Make a Bootable USB Drive &rarr;</a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Pick Your Distro does not host operating system images. Always download from the project's official website and verify the checksum.</p>
+    <p>Distro names belong to their respective projects.</p>
+  </div>
+</footer>
+</body>
+</html>
